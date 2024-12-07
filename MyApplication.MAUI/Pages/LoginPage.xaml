@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:MyApplication.MAUI.ViewModels"
+             x:Class="MyApplication.MAUI.Pages.LoginPage"
+             x:DataType="viewModels:LoginPageViewModel"
+             Title="LoginPage">
+    <VerticalStackLayout>
+        <Button
+            Text="Login with Google"
+            Command="{Binding LoginWithGoogleCommand}"/>
+        
+        <Border />
+
+        <Entry Text="{Binding Email}" Placeholder="Email" />
+        <Entry Text="{Binding Password}" Placeholder="Password" IsPassword="True" />
+        <Button Text="Login" Command="{Binding LoginCommand}" />
+
+        <Border />
+
+        <Button
+            Text="Create an account"
+            Command="{Binding CreateAccountCommand}"/>
+    </VerticalStackLayout>
+</ContentPage>
