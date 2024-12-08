@@ -62,8 +62,18 @@ public class MobileAuthenticationController(
             user = await _signInManager.UserManager.FindByEmailAsync(email);
         }
 
-        // Add the external access token claim in order to verify it later
-        await _userManager.AddClaimAsync(user!, new Claim(ExternalAccessTokenKeyClaim, accessTokenFromExternalProvider));
+        IList<Claim> claimsFromManager =  await _userManager.GetClaimsAsync(user!);
+        Claim? previousExternalAccessTokenClaim = claimsFromManager.FirstOrDefault(c => c.Type == ExternalAccessTokenKeyClaim);
+        Claim externalAccessTokenClaim = new Claim(ExternalAccessTokenKeyClaim, accessTokenFromExternalProvider);
+
+        if (previousExternalAccessTokenClaim != null){
+            if(previousExternalAccessTokenClaim.Value != accessTokenFromExternalProvider)
+                await _userManager.ReplaceClaimAsync(user!,previousExternalAccessTokenClaim, externalAccessTokenClaim);
+        }
+        else{
+            // Add the external access token claim in order to verify it later
+            await _userManager.AddClaimAsync(user!, new Claim(ExternalAccessTokenKeyClaim, accessTokenFromExternalProvider));
+        }
 
         var redirectQueryString = new Dictionary<string, string>
         {

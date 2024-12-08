@@ -36,7 +36,6 @@ public class AccountsControllers(
                 UrlForConfirmEmail: $"{Request.Scheme}://{Request.Host}/Account/ConfirmEmail")
         );
         return result.ToActionResult();
-        
     }
 
     [Authorize]
